@@ -13,7 +13,12 @@ $link = mysql_connect ("host", "username", "password")
 				   $realname = mysql_fetch_assoc($fullname_result);
                     $final_fullname = $realname['name'];
 				   			if (mysql_num_rows($fullname_result) === 0) {
+								
+							
     die( "User not found.");
+	
+	
+	
 	
 				}  else  {
 				   
@@ -51,6 +56,7 @@ mysql_close ($link);
 <p style="text-align: center;">
 <em><strong><span style="font-family: arial, helvetica, sans-serif; font-size: 72px; text-align: center;"> <?php echo $final_fullname ?> </span></span></strong></em></p>
 <p style="text-align: center;">
+
 <img src="https://minotar.net/avatar/<?php echo $final_fullname?>/200">
 
 <p style="text-align: center;">
@@ -71,10 +77,12 @@ echo $final_kills / $final_deaths;
 				?> 
 
 </span></span></p>
-<br>
-<br>
-<br>
+<form>
 <p style="text-align: center;">
-	<span style="font-size:48px;"><a href="http://oresomecraft.com/stats.php"><span style="font-family: arial, helvetica, sans-serif;">Home</span></a></span></p>
+ <input type=button value="Refresh" onClick="window.location.reload()"></form>
 
-</html>
+<form action="statistics.php" method="get">
+			
+				</p>
+			<p style="text-align: center;">
+				<span style="font-family:arial,helvetica,sans-serif;"><strong><em><span style="font-size: 24px;">Search another user: </span></em></strong></span><input name="name" type="text" /><span style="font-size:28px;"> </span><input type="submit" /></p></html>

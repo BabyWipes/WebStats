@@ -1,7 +1,7 @@
 
 <?php
 
-$link = mysql_connect ("host", "username", "password")
+$link = mysql_connect ("host", "user", "password")
                    or die('Could not connect: ' . mysql_error());
 				   
 				   mysql_select_db ("oresomec_battle", $link) or die('could not select database'); 
@@ -15,7 +15,7 @@ $link = mysql_connect ("host", "username", "password")
 				   			if (mysql_num_rows($fullname_result) === 0) {
 								
 							
-    die( "User not found.");
+    die( "User not found. Please try refreshing this page and searching for a user that exists." );
 	
 	
 	
@@ -72,7 +72,10 @@ if ($final_kills / $final_deaths === 0) {
 	echo 0;
 } else {
 
-echo $final_kills / $final_deaths;
+$kdr = $final_kills / $final_deaths;
+$formatted_kdr = round($kdr,2);
+
+echo $formatted_kdr;
 }
 				?> 
 

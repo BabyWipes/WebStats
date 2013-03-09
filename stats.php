@@ -2,21 +2,20 @@
 
 $link = mysql_connect ("host", "user", "password")
                    or die('Could not connect: ' . mysql_error());
-
-				   mysql_select_db ("database", $link) or die('could not select database'); 
 				   
-				   			
-				$totaldeaths = "SELECT SUM(deaths) as req_value FROM oresomebattles";
-				$totaldeaths_results = mysql_query($totaldeaths)or die('query failed'. mysql_error());
+mysql_select_db ("battle", $link) or die('could not select database'); 
+				   	   			
+$totaldeaths = "SELECT SUM(deaths) as req_value FROM oresomebattles";
+$totaldeaths_results = mysql_query($totaldeaths)or die('query failed'. mysql_error());
                 
-				$row = mysql_fetch_assoc($totaldeaths_results);
-                $final_deaths = $row['req_value'];
+$row = mysql_fetch_assoc($totaldeaths_results);
+$final_deaths = $row['req_value'];
 				
-				$totalkills = "SELECT SUM(kills) as req_value FROM oresomebattles";
-				$totalkills_results = mysql_query($totalkills)or die('query failed'. mysql_error());
+$totalkills = "SELECT SUM(kills) as req_value FROM oresomebattles";
+$totalkills_results = mysql_query($totalkills)or die('query failed'. mysql_error());
                 
-				$row1 = mysql_fetch_assoc($totalkills_results);
-                $final_kills = $row1['req_value'];
+$row1 = mysql_fetch_assoc($totalkills_results);
+$final_kills = $row1['req_value'];
 mysql_close ($link);
 
 ?>

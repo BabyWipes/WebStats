@@ -1,18 +1,17 @@
-<?php
 
+<?php
 $link = mysql_connect ("host", "user", "password")
                    or die('Could not connect: ' . mysql_error());
 				   
-				   mysql_select_db ("database", $link) or die('could not select database'); 
+mysql_select_db ("battle", $link) or die('could not select database'); 
 				   
-				   $username = $_GET["name"];
-				   
-				    $fullname = "SELECT name FROM `oresomebattles` WHERE name='$username'";
-					 $fullname_result = mysql_query($fullname)or die('query failed'. mysql_error());
-				   $realname = mysql_fetch_assoc($fullname_result);
-                    $final_fullname = $realname['name'];
+$username = $_GET["name"];			   
+$fullname = "SELECT name FROM `oresomebattles` WHERE name='$username'";
+$fullname_result = mysql_query($fullname)or die('query failed'. mysql_error());
+$realname = mysql_fetch_assoc($fullname_result);
+ $final_fullname = $realname['name'];
                     
-		if (mysql_num_rows($fullname_result) === 0) { ?>
+if (mysql_num_rows($fullname_result) === 0) { ?>
 
 
     <html>
@@ -53,11 +52,11 @@ $link = mysql_connect ("host", "user", "password")
 				 die();
 				 } else { 
 				   
-				   $kills = "SELECT kills FROM `oresomebattles` WHERE name='$final_fullname'";
-				   $deaths = "SELECT deaths FROM `oresomebattles` WHERE name='$final_fullname'";
-				   $ffawins = "SELECT ffawins FROM `oresomebattles` WHERE name='$final_fullname'";
+$kills = "SELECT kills FROM `oresomebattles` WHERE name='$final_fullname'";
+$deaths = "SELECT deaths FROM `oresomebattles` WHERE name='$final_fullname'";
+$ffawins = "SELECT ffawins FROM `oresomebattles` WHERE name='$final_fullname'";
 			
-	$kills_result = mysql_query($kills)or die('query failed'. mysql_error());			   
+$kills_result = mysql_query($kills)or die('query failed'. mysql_error());			   
  $deaths_result = mysql_query($deaths)or die('query failed'. mysql_error());		   
  $ffawins_result = mysql_query($ffawins)or die('query failed'. mysql_error());
  
@@ -112,7 +111,6 @@ mysql_close ($link);
 if ($final_kills / $final_deaths === 0 OR $final_kills / $final_deaths < 0 AND $final_deaths === 0) {
 	echo $final_kills;
 
-	
 } else {
 
 $kdr = $final_kills / $final_deaths;
@@ -124,10 +122,8 @@ echo $formatted_kdr;
 
 </span></span></p>
 
-
 <p style="text-align: center;">
 <strong><span style="font-size:36px;"><span style="font-family: arial, helvetica, sans-serif;">Free for alls won: </span></span></strong> <span style="font-size:36px;"><span style="font-family: arial, helvetica, sans-serif;"> <?php echo $final_ffawins ?> </span></span></p>
-
 
 <form>
 <p style="text-align: center;">

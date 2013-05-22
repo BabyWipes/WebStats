@@ -1,4 +1,6 @@
 OresomeBattles-online-stats.
 ============================
 
-Simple PHP script/s to show player battles stats online.
+These are the php script used to query player statistics for OresomeCraft Battles players.
+
+These scripts simply grab the required data from a MySQL DB and display it.

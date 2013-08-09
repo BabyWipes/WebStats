@@ -5,19 +5,13 @@ $link = mysql_connect ("203.33.121.41", "battles_stats", "")
 
 mysql_select_db ("battle", $link) or die('could not select database');
 
-$totaldeaths = "SELECT SUM(deaths) as req_value FROM oresomebattles";
-$totaldeaths_results = mysql_query($totaldeaths)or die('query failed'. mysql_error());
+$query_kills = "SELECT COUNT(*) FROM stats WHERE pvp='true'";
+$kills = mysql_fetch_assoc(mysql_query($query_kills, $link))['COUNT(*)'];
 
-$row = mysql_fetch_assoc($totaldeaths_results);
-$final_deaths = $row['req_value'];
+$query_deaths = "SELECT COUNT(*) FROM stats";
+$deaths = mysql_fetch_assoc(mysql_query($query_deaths, $link))['COUNT(*)'];
 
-$totalkills = "SELECT SUM(kills) as req_value FROM oresomebattles";
-$totalkills_results = mysql_query($totalkills)or die('query failed'. mysql_error());
-
-$row1 = mysql_fetch_assoc($totalkills_results);
-$final_kills = $row1['req_value'];
-mysql_close ($link);
-
+mysql_close($link);
 ?>
 
 <html>
@@ -25,7 +19,6 @@ mysql_close ($link);
     <title>OresomeCraft Battles online stats</title>
 </head>
 <style type="text/css">
-
     .boxdiv {
         margin: 5px;
         padding: 5px;
@@ -36,24 +29,12 @@ mysql_close ($link);
         background-color: #E6E6E6;
         border-radius: 8px;
     }
-    .tdeathsdiv {
+    .statsbox {
         margin: 5px;
         padding: 5px;
         width: 45%;
         position: fixed;
-        right: 2%;
         border: 2px solid #4D686F;
-        background-color: #0000FF;
-        border-radius: 8px;
-    }
-    .tkillsdiv {
-        margin: 5px;
-        padding: 5px;
-        width: 45%;
-        position: fixed;
-        left: 2%;
-        border: 2px solid #4D686F;
-        background-color: #FF0000;
         border-radius: 8px;
     }
 </style>
@@ -74,19 +55,20 @@ mysql_close ($link);
 </form>
 
 <br><br><br><br><br><br><br><br>
-<div class="tdeathsdiv">
+
+<div class="statsbox" style="right: 2%; background-color: #0000FF;">
     <p style="text-align: center;">
         <strong><span style="font-size:30px;"><span style="font-family: arial, helvetica, sans-serif;">Total Server Deaths:</span></span></strong></p>
     <p style="text-align: center;">&nbsp;
-        <span style="font-family:arial,helvetica,sans-serif;"><strong><span style="font-size: 26px;"><?php echo $final_deaths ?></span></strong></span></p>
+        <span style="font-family:arial,helvetica,sans-serif;"><strong><span style="font-size: 26px;"><?php echo $deaths ?></span></strong></span></p>
 
 </div>
 
-<div class="tkillsdiv">
+<div class="statsbox" style="left: 2%; background-color: #FF0000;">
     <p style="text-align: center;">
         <strong><span style="font-size:30px;"><span style="font-family: arial, helvetica, sans-serif;">Total Server Kills:</span></span></strong></p>
     <p style="text-align: center;">&nbsp;
-        <span style="font-family:arial,helvetica,sans-serif;"><strong><span style="font-size: 26px;"><?php echo $final_kills ?></span></strong></span></p>
+        <span style="font-family:arial,helvetica,sans-serif;"><strong><span style="font-size: 26px;"><?php echo $kills ?></span></strong></span></p>
 
 </div>
 

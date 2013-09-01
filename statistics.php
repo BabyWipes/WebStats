@@ -1,35 +1,13 @@
 <?php
+$username = $_REQUEST["name"];
+$decode = json_decode(file_get_contents('http://oresomecraft.net/battleapi.php?name=' . $username), true);
 
-$link = mysql_connect("203.33.121.41", "battles_stats", "");
-
-mysql_select_db("battle", $link) or die('could not select database');
-
-$username = $_GET["name"];
-$fullname = "SELECT name FROM `UserInfo` WHERE name='$username'";
-$fullname_result = mysql_query($fullname)or die('query failed' . mysql_error());
-$realname = mysql_fetch_assoc($fullname_result);
-$final_fullname = $realname['name'];
-
-if (mysql_num_rows($fullname_result) === 0) {
+if ($decode['error'] == 'true') {
     printNoUser();
-    die();
+} else {
+    printPage($decode['stats']['username'], $decode['stats']['kills'], $decode['stats']['deaths'],
+        $decode['stats']['ffa_wins'], $decode['stats']['infection_wins'], $decode['stats']['games_played']);
 }
-
-// Queries
-$query_kills = "SELECT COUNT(*) FROM stats WHERE killer='$final_fullname'";
-$query_deaths = "SELECT COUNT(*) FROM stats WHERE killed='$final_fullname'";
-$query_ffa_wins = "SELECT COUNT(*) FROM `FFAWins` WHERE winner='$final_fullname'";
-$query_infection_wins = "SELECT COUNT(*) FROM `InfectionWins` WHERE winner='$final_fullname'";
-$query_games_played = "SELECT COUNT(*) FROM `GamesPlayed` WHERE name='$final_fullname'";
-
-$kills = mysql_fetch_assoc(mysql_query($query_kills, $link))['COUNT(*)'];
-$deaths = mysql_fetch_assoc(mysql_query($query_deaths, $link))['COUNT(*)'];
-$ffa_wins = mysql_fetch_assoc(mysql_query($query_ffa_wins, $link))['COUNT(*)'];
-$infection_wins = mysql_fetch_assoc(mysql_query($query_infection_wins, $link))['COUNT(*)'];
-$games_played = mysql_fetch_assoc(mysql_query($query_games_played, $link))['COUNT(*)'];
-
-printPage($final_fullname, $kills, $deaths, $ffa_wins, $infection_wins, $games_played);
-mysql_close($link);
 
 function calculateKD($kills, $deaths)
 {

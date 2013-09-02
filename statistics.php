@@ -2,7 +2,7 @@
 $username = $_REQUEST["name"];
 $decode = json_decode(file_get_contents('http://oresomecraft.net/battleapi.php?name=' . $username), true);
 
-if ($decode['error'] == 'true') {
+if ($decode['user_exists'] == false) {
     printNoUser();
 } else {
     printPage($decode['stats']['username'], $decode['stats']['kills'], $decode['stats']['deaths'],

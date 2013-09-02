@@ -22,7 +22,7 @@
 
     if (isset($user[0])) {
         echo json_encode(array(
-            'error' => false, 
+            'user_exists' => true, 
             'stats' => array(
                 'username' => $user[0]['name'],
                 'kills' => $kills[0]['COUNT(*)'], 
@@ -35,7 +35,7 @@
         ), JSON_PRETTY_PRINT);
     } else {
         echo json_encode(array(
-            'error' => true,
+            'user_exists' => false,
             'total_server_stats' => $server_stats
         ), JSON_PRETTY_PRINT);
     }

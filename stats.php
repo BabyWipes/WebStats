@@ -1,17 +1,6 @@
 <?php
 
-$link = mysql_connect ("203.33.121.41", "battles_stats", "")
-    or die('Could not connect: ' . mysql_error());
-
-mysql_select_db ("battle", $link) or die('could not select database');
-
-$query_kills = "SELECT COUNT(*) FROM stats WHERE pvp='true'";
-$kills = mysql_fetch_assoc(mysql_query($query_kills, $link))['COUNT(*)'];
-
-$query_deaths = "SELECT COUNT(*) FROM stats";
-$deaths = mysql_fetch_assoc(mysql_query($query_deaths, $link))['COUNT(*)'];
-
-mysql_close($link);
+$decode = json_decode(file_get_contents('http://oresomecraft.net/battleapi.php?name=?'), true);
 ?>
 
 <html>
@@ -60,7 +49,7 @@ mysql_close($link);
     <p style="text-align: center;">
         <strong><span style="font-size:30px;"><span style="font-family: arial, helvetica, sans-serif;">Total Server Deaths:</span></span></strong></p>
     <p style="text-align: center;">&nbsp;
-        <span style="font-family:arial,helvetica,sans-serif;"><strong><span style="font-size: 26px;"><?php echo $deaths ?></span></strong></span></p>
+        <span style="font-family:arial,helvetica,sans-serif;"><strong><span style="font-size: 26px;"><?php echo $decode['total_server_stats']['deaths'] ?></span></strong></span></p>
 
 </div>
 
@@ -68,7 +57,7 @@ mysql_close($link);
     <p style="text-align: center;">
         <strong><span style="font-size:30px;"><span style="font-family: arial, helvetica, sans-serif;">Total Server Kills:</span></span></strong></p>
     <p style="text-align: center;">&nbsp;
-        <span style="font-family:arial,helvetica,sans-serif;"><strong><span style="font-size: 26px;"><?php echo $kills ?></span></strong></span></p>
+        <span style="font-family:arial,helvetica,sans-serif;"><strong><span style="font-size: 26px;"><?php echo $decode['total_server_stats']['kills'] ?></span></strong></span></p>
 
 </div>
 

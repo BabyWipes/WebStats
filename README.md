@@ -1,6 +1,6 @@
-OresomeBattles-online-stats.
+OresomeBattles WebStats
 ============================
 
-These are the php script used to query player statistics for OresomeCraft Battles players.
+API to collect stats from the OresomeBattles databases via JSON.
 
-These scripts simply grab the required data from a MySQL DB and display it.
+Stats are explosed in JSON via battleapi.php and the json is decoded in the other scripts to show it in a webpage form.

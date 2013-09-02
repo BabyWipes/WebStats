@@ -1,4 +1,8 @@
 <?php
+/*
+ * Basic/slim-downed version of stats page for player profiles 
+ */
+
 $username = $_REQUEST["name"];
 $decode = json_decode(file_get_contents('http://oresomecraft.net/battleapi.php?name=' . $username), true);
 
@@ -13,12 +17,9 @@ function calculateKD($kills, $deaths)
 {
     if ($kills / $deaths === 0 OR $kills / $deaths < 0 AND $deaths === 0) {
         return $kills;
-
     } else {
-
         $kdr = $kills / $deaths;
         $formatted_kdr = round($kdr, 2);
-
         return $formatted_kdr;
     }
 }
@@ -27,7 +28,6 @@ function printPage($name, $kills, $deaths, $ffa_wins, $infection_wins, $games_pl
 {
     echo '
     <html>
-    <title>OresomeCraft Battles stats</title>
     <style type="text/css">
 
     .boxdiv {
@@ -47,10 +47,6 @@ function printPage($name, $kills, $deaths, $ffa_wins, $infection_wins, $games_pl
         <em><strong><span
                     style="font-family: arial, helvetica, sans-serif; font-size: 72px; text-align: center;"> ' . $name . ' </span></span>
             </strong></em></p>
-
-    <p style="text-align: center;">
-
-        <img src="https://minotar.net/avatar/' . $name . '/200">
 
     <p style="text-align: center;">
         <strong><span style="font-size:28px;"><span
@@ -83,19 +79,7 @@ function printPage($name, $kills, $deaths, $ffa_wins, $infection_wins, $games_pl
         <span style="font-size:28px;"><span
                 style="font-family: arial, helvetica, sans-serif;"> ' . $games_played . ' </span></span></p>
 
-    <form>
-        <p style="text-align: center;">
-            <input type=button value="Refresh" onClick="window.location.reload()"></form>
-
-    <form action="statistics.php" method="get">
-
-        <p style="text-align: center;">
-            <span style="font-family:arial,helvetica,sans-serif;"><strong><em><span style="font-size: 24px;">Search another user: </span></em></strong></span><input
-                name="name" type="text"/><span style="font-size:28px;"> </span><input type="submit"/></p>
-    </form>
-
 </html>
-
 ';
 
 }
@@ -103,7 +87,6 @@ function printPage($name, $kills, $deaths, $ffa_wins, $infection_wins, $games_pl
 function printNoUser()
 {
     echo '
-    <title>User not found!</title>
     <style type="text/css">
 
     .boxdiv {

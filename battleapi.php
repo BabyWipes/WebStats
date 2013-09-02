@@ -15,6 +15,11 @@
     $infectionwins = $db->query('SELECT COUNT(*) FROM `InfectionWins` WHERE `winner` = \''.$username.'\';')->fetchAll();
     $gamesplayed = $db->query('SELECT COUNT(*) FROM `GamesPlayed` WHERE `name` = \''.$username.'\';')->fetchAll();
 
+    $total_server_kills = $db->query('SELECT COUNT(*) FROM `stats` WHERE `pvp` = \'true\';')->fetchAll();
+    $total_server_deaths = $db->query('SELECT COUNT(*) FROM `stats`;')->fetchAll();
+
+    $server_stats = array('kills' => $total_server_kills[0]['COUNT(*)'], 'deaths' => $total_server_deaths[0]['COUNT(*)']);
+
     if (isset($user[0])) {
         echo json_encode(array(
             'error' => false, 
@@ -25,11 +30,13 @@
                 'ffa_wins' => $ffawins[0]['COUNT(*)'], 
                 'infection_wins' => $infectionwins[0]['COUNT(*)'],
                 'games_played' => $gamesplayed[0]['COUNT(*)']
-            )
-        ));
+            ),
+            'total_server_stats' => $server_stats
+        ), JSON_PRETTY_PRINT);
     } else {
         echo json_encode(array(
-            'error' => true
-        ));
+            'error' => true,
+            'total_server_stats' => $server_stats
+        ), JSON_PRETTY_PRINT);
     }
 ?>

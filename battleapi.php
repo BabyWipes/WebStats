@@ -1,7 +1,7 @@
 <?php
     try {
-        $db = new PDO('mysql:host=203.33.121.41;dbname=battle', 'battles_stats', '');
-    } catch(PDOException $e) {
+        $db = new PDO('mysql:host=203.33.121.41;dbname=battle', 'battle_stats', '');
+    } catch (PDOException $e) {
         echo 'Something went wrong! '.$e->getMessage();
         die();
     }
@@ -29,7 +29,37 @@
                 'deaths' => $deaths[0]['COUNT(*)'], 
                 'ffa_wins' => $ffawins[0]['COUNT(*)'], 
                 'infection_wins' => $infectionwins[0]['COUNT(*)'],
-                'games_played' => $gamesplayed[0]['COUNT(*)']
+                'games_played' => $gamesplayed[0]['COUNT(*)'],
+                'gamemode_stats' => array(
+                    'TDM' => array(
+                        'kills' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'TDM\' AND `killer` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)'],
+                        'deaths' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'TDM\' AND `killed` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)']
+                        ),
+                    'FFA' => array(
+                        'kills' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'FFA\' AND `killer` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)'],
+                        'deaths' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'FFA\' AND `killed` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)']
+                        ),
+                    'INFECTION' => array(
+                        'kills' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'INFECTION\' AND `killer` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)'],
+                        'deaths' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'INFECTION\' AND `killed` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)']
+                        ),
+                    'CTF' => array(
+                        'kills' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'CTF\' AND `killer` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)'],
+                        'deaths' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'CTF\' AND `killed` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)']
+                        ),
+                    'KOTH' => array(
+                        'kills' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'KOTH\' AND `killer` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)'],
+                        'deaths' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'KOTH\' AND `killed` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)']
+                        ),
+                    'LMS' => array(
+                        'kills' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'LMS\' AND `killer` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)'],
+                        'deaths' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'LMS\' AND `killed` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)']
+                        ),
+                    'CP' => array(
+                        'kills' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'CP\' AND `killer` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)'],
+                        'deaths' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'CP\' AND `killed` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)']
+                        )
+                    )
             ),
             'total_server_stats' => $server_stats
         ), JSON_PRETTY_PRINT);

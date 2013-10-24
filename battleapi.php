@@ -17,20 +17,10 @@
 
     $total_server_kills = $db->query('SELECT COUNT(*) FROM `stats` WHERE `pvp` = \'true\';')->fetchAll();
     $total_server_deaths = $db->query('SELECT COUNT(*) FROM `stats`;')->fetchAll();
+    $gamemode_stats = array();
 
-    $server_stats = array('kills' => $total_server_kills[0]['COUNT(*)'], 'deaths' => $total_server_deaths[0]['COUNT(*)']);
-
-    if (isset($user[0])) {
-        echo json_encode(array(
-            'user_exists' => true, 
-            'stats' => array(
-                'username' => $user[0]['name'],
-                'kills' => $kills[0]['COUNT(*)'], 
-                'deaths' => $deaths[0]['COUNT(*)'], 
-                'ffa_wins' => $ffawins[0]['COUNT(*)'], 
-                'infection_wins' => $infectionwins[0]['COUNT(*)'],
-                'games_played' => $gamesplayed[0]['COUNT(*)'],
-                'gamemode_stats' => array(
+    if ($_REQUEST['gamemode_stats'] == 'true') {
+        $gamemode_stats = array(
                     'TDM' => array(
                         'kills' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'TDM\' AND `killer` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)'],
                         'deaths' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'TDM\' AND `killed` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)']
@@ -59,7 +49,20 @@
                         'kills' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'CP\' AND `killer` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)'],
                         'deaths' => $db->query('SELECT COUNT(*) FROM `stats` WHERE `gamemode` = \'CP\' AND `killed` = \''.$username.'\';')->fetchAll()[0]['COUNT(*)']
                         )
-                    )
+                );
+    }
+
+    if (isset($user[0])) {
+        echo json_encode(array(
+            'user_exists' => true, 
+            'stats' => array(
+                'username' => $user[0]['name'],
+                'kills' => $kills[0]['COUNT(*)'], 
+                'deaths' => $deaths[0]['COUNT(*)'], 
+                'ffa_wins' => $ffawins[0]['COUNT(*)'], 
+                'infection_wins' => $infectionwins[0]['COUNT(*)'],
+                'games_played' => $gamesplayed[0]['COUNT(*)'],
+                'gamemode_stats' => $gamemode_stats
             ),
             'total_server_stats' => $server_stats
         ), JSON_PRETTY_PRINT);
